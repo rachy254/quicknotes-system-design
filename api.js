@@ -58,7 +58,17 @@ function renderNotes() {
     const body = document.createElement("p");
     body.textContent = note.body || "No additional details.";
 
-    item.append(title, body);
+    const actions = document.createElement("div");
+    actions.className = "note-actions";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "button delete-button";
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => deleteNote(note));
+
+    actions.append(deleteButton);
+    item.append(title, body, actions);
     notesList.append(item);
   }
 }
@@ -81,6 +91,28 @@ async function loadNotes() {
     }
   } catch (error) {
     setStatus("We couldn't load your notes. Please try again.", "error");
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function deleteNote(note) {
+  if (busy) return;
+
+  setBusy(true);
+  setStatus("Deleting note...", "loading");
+
+  try {
+    const { status } = await request(`${API_URL}/${encodeURIComponent(note.id)}`, {
+      method: "DELETE",
+    });
+
+    // JSONPlaceholder acknowledges writes but does not persist them, so mirror deletion in this page's local list.
+    notes = notes.filter((currentNote) => currentNote.id !== note.id);
+    renderNotes();
+    setStatus(`Note deleted (status ${status}, id ${note.id}).`, "success");
+  } catch (error) {
+    setStatus("We couldn't delete your note. Please try again.", "error");
   } finally {
     setBusy(false);
   }
