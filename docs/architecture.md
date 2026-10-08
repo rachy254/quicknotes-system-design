@@ -23,7 +23,7 @@ The supplied user count does not specify usage, so these are explicit planning a
 - **Reads:** assume each active user opens their notes list 20 times/day: `100,000 × 20 = 2,000,000 reads/day`; average `2,000,000 ÷ 86,400 ≈ 23 reads/second`.
 - **Writes:** assume each active user creates or updates 2 notes/day: `100,000 × 2 = 200,000 writes/day`; average `200,000 ÷ 86,400 ≈ 2.3 writes/second`.
 - **Peak planning rate:** using a 5× peak-to-average factor gives about **116 reads/second** and **12 writes/second**.
-- **Storage:** assume each saved note, including its title, body, and basic row metadata, averages 2 KB and notes are retained for a year: `200,000 notes/day × 2 KB × 365 = 146,000,000 KB`, or about **146 GB/year** of raw note data using decimal units.
+- **Storage:** assume both daily writes create new notes (updates do not add stored notes), each saved note including its title, body, and basic row metadata averages 2 KB, and notes are retained for a year: `200,000 notes/day × 2 KB × 365 = 146,000,000 KB`, or about **146 GB/year** of raw note data using decimal units.
 
 These are baseline estimates, not measured traffic. They exclude indexes, replicas, backups, logs, attachments, and growth beyond the assumed activity. The service is read-heavy under these assumptions (about 10 reads per write), so caching and read scaling deserve attention while writes stay durable on the primary.
 

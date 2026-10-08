@@ -87,7 +87,8 @@ async function loadNotes() {
     if (notes.length === 0) {
       setStatus("No notes were returned by the server.", "success");
     } else {
-      setStatus(`Loaded ${notes.length} notes from the server.`, "success");
+      const noun = notes.length === 1 ? "note" : "notes";
+      setStatus(`Loaded ${notes.length} ${noun} from the server.`, "success");
     }
   } catch (error) {
     setStatus("We couldn't load your notes. Please try again.", "error");
