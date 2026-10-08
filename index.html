@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A small QuickNotes client that demonstrates loading, creating, and deleting notes through an API."
+    />
+    <title>QuickNotes</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="api.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Your ideas, organized</p>
+          <h1>QuickNotes</h1>
+        </div>
+        <button id="load-btn" class="button button-secondary" type="button">
+          Load notes
+        </button>
+      </header>
+
+      <p id="status" class="status" role="status" aria-live="polite">
+        Load your notes or create a new one.
+      </p>
+
+      <section class="panel" aria-labelledby="create-heading">
+        <h2 id="create-heading">Create a note</h2>
+        <form id="note-form" novalidate>
+          <div class="field">
+            <label for="title-input">Title</label>
+            <input
+              id="title-input"
+              name="title"
+              type="text"
+              maxlength="100"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="body-input">Note</label>
+            <textarea id="body-input" name="body" rows="4"></textarea>
+          </div>
+          <button id="submit-btn" class="button" type="submit">
+            Save note
+          </button>
+        </form>
+      </section>
+
+      <section class="notes-section" aria-labelledby="notes-heading">
+        <h2 id="notes-heading">Your notes</h2>
+        <ul id="notes-list" aria-live="polite"></ul>
+      </section>
+    </main>
+  </body>
+</html>
